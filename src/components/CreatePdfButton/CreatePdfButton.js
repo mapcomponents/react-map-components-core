@@ -14,11 +14,6 @@ const CreatePdfButton = () => {
       <Button
         variant="light"
         onClick={() => {
-          if (!mapContext.mapLocation) {
-            mapContext.setErrorMessage("Bitte suchen Sie zuerst nach einem Ort oder einer Adresse.");
-            mapContext.setShowErrorMessage(true);
-            return false;
-          }
           mapContext.setLoadingMsg("Erzeuge Pdf");
           createPdf(
             mapContext.map,
