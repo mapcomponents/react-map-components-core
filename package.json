@@ -55,6 +55,7 @@
     "react-dom": "^16.13.1",
     "maplibre-gl": "*",
     "react-icons":"*",
-    "react-bootstrap":"*"
+    "react-bootstrap":"*",
+    "jspdf":"*"
   }
 }
