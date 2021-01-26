@@ -53,6 +53,8 @@
   "peerDependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "maplibre-gl": "*"
+    "maplibre-gl": "*",
+    "react-icons":"*",
+    "react-bootstrap":"*"
   }
 }
