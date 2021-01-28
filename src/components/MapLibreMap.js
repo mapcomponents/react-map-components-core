@@ -1,9 +1,16 @@
 import React, { useRef, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
 import MapContext from "./MapContext";
 
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/mapbox-gl.css";
 
+/**
+ * The MapLibreMap component will create the MapLibre-gl instance and set the reference at MapContext.map after the MapLibre-gl load event has fired. That way (since the map refence is created using the useState hook) you can use the react useEffect hook in depending components to access the MapLibre-gl instance like ```useEffect(() => { \/** code *\/ }, [mapContext.map])``` and be sure the code is executed once the MapLibre-gl instance has fired the load event.
+ *
+ * MapLibreMap returns the html node that will be used by MapLibre-gl to render the map.
+ * This Component must be kept unaware of any related components that interact with the MapLibre-gl instance. 
+ */
 const MapLibreMap = (props) => {
   const map = useRef(null);
   const mapContainer = useRef(null);
@@ -31,6 +38,10 @@ const MapLibreMap = (props) => {
   }, []);
 
   return <div ref={mapContainer} className="mapContainer" />;
+};
+
+MapLibreMap.propTypes = {
+  options: PropTypes.object,
 };
 
 export default MapLibreMap;
