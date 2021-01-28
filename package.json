@@ -12,6 +12,10 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
+    "maplibre-gl": ">=1.13.0-rc.1",
+    "react-icons":"*",
+    "react-bootstrap":"*",
+    "jspdf":"*",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -52,10 +56,6 @@
   },
   "peerDependencies": {
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "maplibre-gl": "*",
-    "react-icons":"*",
-    "react-bootstrap":"*",
-    "jspdf":"*"
+    "react-dom": "^16.13.1"
   }
 }
