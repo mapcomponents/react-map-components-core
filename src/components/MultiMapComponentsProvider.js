@@ -19,7 +19,7 @@ const MultiMapComponentsProvider = ({ children }) => {
     registerMap: (mapId, map) => {
       if(mapId && map){
         maps[mapId] = map;
-        map.setMap(map);
+        setMapIds([...mapIds, mapId]);
       }
     }
   };
