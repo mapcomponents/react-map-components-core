@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { MultiMapContextProvider } from "./MultiMapContext";
+import { MapContextProvider } from "./MapContext";
 
 /**
  * TODO: Update comments for multi instance
@@ -24,7 +24,7 @@ const MultiMapComponentsProvider = ({ children }) => {
     }
   };
 
-  return <MultiMapContextProvider value={value}>{children}</MultiMapContextProvider>;
+  return <MapContextProvider value={value}>{children}</MapContextProvider>;
 };
 
 MultiMapComponentsProvider.propTypes = {
