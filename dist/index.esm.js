@@ -5,8 +5,20 @@ function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
+
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
+}
+
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
 
 function _iterableToArrayLimit(arr, i) {
@@ -51,6 +63,10 @@ function _arrayLikeToArray(arr, len) {
   for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 
   return arr2;
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
 function _nonIterableRest() {
@@ -135,4 +151,40 @@ MapComponentsProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export { MapComponentsProvider, MapContext };
+/**
+ * TODO: Update comments for multi instance
+ *
+ * MultiMapComponentsProvider must be imported and wrapped around component where at least one of its child nodes requires access to the MapLibreMaps object.
+MultiMapComponentsProvider must be used one level higher than the first use of MultiMapContext.
+ *
+ * MultiMapComponentsProvider requires exactly one use of the MapLibreMap component somewhere down the component tree that will create the MapLibre-gl object and set the reference at MultiMapContext.map.
+ */
+
+var MultiMapComponentsProvider = function MultiMapComponentsProvider(_ref) {
+  var children = _ref.children;
+
+  var _useState = useState([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      mapIds = _useState2[0],
+      setMapIds = _useState2[1];
+
+  var maps = {};
+  var value = {
+    maps: maps,
+    registerMap: function registerMap(mapId, map) {
+      if (mapId && map) {
+        maps[mapId] = map;
+        setMapIds([].concat(_toConsumableArray(mapIds), [mapId]));
+      }
+    }
+  };
+  return /*#__PURE__*/React.createElement(MapContextProvider, {
+    value: value
+  }, children);
+};
+
+MultiMapComponentsProvider.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
+export { MapComponentsProvider, MapContext, MultiMapComponentsProvider };
