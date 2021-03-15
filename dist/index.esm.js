@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 function _slicedToArray(arr, i) {
@@ -91,56 +91,9 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
       map = _useState2[0],
       setMap = _useState2[1];
 
-  var _useState3 = useState(null),
-      _useState4 = _slicedToArray(_useState3, 2),
-      mapLocation = _useState4[0],
-      setMapLocation = _useState4[1];
-
-  var _useState5 = useState(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      loading = _useState6[0],
-      setLoading = _useState6[1];
-
-  var _useState7 = useState(false),
-      _useState8 = _slicedToArray(_useState7, 2),
-      loadingMsg = _useState8[0],
-      setLoadingMsg = _useState8[1];
-
-  var _useState9 = useState(false),
-      _useState10 = _slicedToArray(_useState9, 2),
-      showErrorMessage = _useState10[0],
-      setShowErrorMessage = _useState10[1];
-
-  var _useState11 = useState(""),
-      _useState12 = _slicedToArray(_useState11, 2),
-      errorMessage = _useState12[0],
-      setErrorMessage = _useState12[1]; // reset loading message after loading is switched back to false
-
-
-  useEffect(function () {
-    if (!loading) {
-      setLoadingMsg("loading");
-    }
-  }, [loading]); // reset error message after loading is switched back to false
-
-  useEffect(function () {
-    if (!showErrorMessage) {
-      setErrorMessage("");
-    }
-  }, [showErrorMessage]);
   var value = {
     map: map,
-    setMap: setMap,
-    mapLocation: mapLocation,
-    setMapLocation: setMapLocation,
-    loading: loading,
-    setLoading: setLoading,
-    loadingMsg: loadingMsg,
-    setLoadingMsg: setLoadingMsg,
-    showErrorMessage: showErrorMessage,
-    setShowErrorMessage: setShowErrorMessage,
-    errorMessage: errorMessage,
-    setErrorMessage: setErrorMessage
+    setMap: setMap
   };
   return /*#__PURE__*/React.createElement(MapContextProvider, {
     value: value
