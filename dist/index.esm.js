@@ -110,7 +110,7 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
       }
     },
     maps: maps.current,
-    mapIds: mapIds,
+    mapIds: mapIds_raw.current,
     registerMap: function registerMap(mapId, mapInstance) {
       if (mapId && mapInstance) {
         maps.current[mapId] = mapInstance;
