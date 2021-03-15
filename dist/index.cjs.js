@@ -86,6 +86,7 @@ var MapContext = /*#__PURE__*/React__default['default'].createContext({});
 var MapContextProvider = MapContext.Provider;
 
 /**
+ * TODO Update readme for multi instance functionality
  * MapComponentsProvider must be imported and wrapped around component where at least one of its child nodes requires access to the MapLibreMaps object.
 MapComponentsProvider must be used one level higher than the first use of MapContext.
  *
@@ -105,6 +106,7 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
       mapIds = _useState4[0],
       setMapIds = _useState4[1];
 
+  var mapIds_raw = [];
   var maps = {};
   var value = {
     map: map,
@@ -120,7 +122,8 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
     registerMap: function registerMap(mapId, mapInstance) {
       if (mapId && mapInstance) {
         maps[mapId] = mapInstance;
-        setMapIds([].concat(_toConsumableArray(mapIds), [mapId]));
+        mapIds_raw.push(mapId);
+        setMapIds(mapIds_raw);
 
         if (!map) {
           _setMap(mapInstance);

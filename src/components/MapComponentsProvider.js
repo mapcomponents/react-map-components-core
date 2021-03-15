@@ -12,6 +12,7 @@ MapComponentsProvider must be used one level higher than the first use of MapCon
 const MapComponentsProvider = ({ children }) => {
   const [map, setMap] = useState(null);
   const [mapIds, setMapIds] = useState([]);
+  let mapIds_raw = [];
   let maps = {};
 
   const value = {
@@ -28,7 +29,8 @@ const MapComponentsProvider = ({ children }) => {
     registerMap: (mapId, mapInstance) => {
       if(mapId && mapInstance){
         maps[mapId] = mapInstance;
-        setMapIds([...mapIds, mapId]);
+        mapIds_raw.push(mapId);
+        setMapIds(mapIds_raw);
 
         if(!map){
           setMap(mapInstance);
