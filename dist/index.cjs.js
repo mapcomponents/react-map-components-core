@@ -98,11 +98,35 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
   var _useState = React.useState(null),
       _useState2 = _slicedToArray(_useState, 2),
       map = _useState2[0],
-      setMap = _useState2[1];
+      _setMap = _useState2[1];
 
+  var _useState3 = React.useState([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      mapIds = _useState4[0],
+      setMapIds = _useState4[1];
+
+  var maps = {};
   var value = {
     map: map,
-    setMap: setMap
+    setMap: function setMap(mapInstance) {
+      _setMap(mapInstance);
+
+      if (mapIds.length === 0) {
+        setMapIds([].concat(_toConsumableArray(mapIds), ['map_1']));
+      }
+    },
+    maps: maps,
+    mapIds: mapIds,
+    registerMap: function registerMap(mapId, mapInstance) {
+      if (mapId && mapInstance) {
+        maps[mapId] = mapInstance;
+        setMapIds([].concat(_toConsumableArray(mapIds), [mapId]));
+
+        if (!map) {
+          _setMap(mapInstance);
+        }
+      }
+    }
   };
   return /*#__PURE__*/React__default['default'].createElement(MapContextProvider, {
     value: value
