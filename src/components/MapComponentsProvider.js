@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { MapContextProvider } from "./MapContext";
 
 /**
+ * TODO Update readme for multi instance functionality
  * MapComponentsProvider must be imported and wrapped around component where at least one of its child nodes requires access to the MapLibreMaps object.
 MapComponentsProvider must be used one level higher than the first use of MapContext.
  *
