@@ -22,7 +22,7 @@ const MapComponentsProvider = ({ children }) => {
 
       if(mapIds.length === 0){
         setMapIds([...mapIds, 'map_1']);
-        maps['map_1'] = mapInstance;
+        maps.current['map_1'] = mapInstance;
       }
     },
     maps: maps.current,

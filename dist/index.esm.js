@@ -106,7 +106,7 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
 
       if (mapIds.length === 0) {
         setMapIds([].concat(_toConsumableArray(mapIds), ['map_1']));
-        maps['map_1'] = mapInstance;
+        maps.current['map_1'] = mapInstance;
       }
     },
     maps: maps.current,
