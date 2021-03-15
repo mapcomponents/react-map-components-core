@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { MapContextProvider } from "./MapContext";
 
@@ -12,8 +12,8 @@ MapComponentsProvider must be used one level higher than the first use of MapCon
 const MapComponentsProvider = ({ children }) => {
   const [map, setMap] = useState(null);
   const [mapIds, setMapIds] = useState([]);
-  let mapIds_raw = [];
-  let maps = {};
+  let mapIds_raw = useRef([]);
+  let maps = useRef({});
 
   const value = {
     map: map,
@@ -22,15 +22,16 @@ const MapComponentsProvider = ({ children }) => {
 
       if(mapIds.length === 0){
         setMapIds([...mapIds, 'map_1']);
+        maps['map_1'] = mapInstance;
       }
     },
-    maps: maps,
+    maps: maps.current,
     mapIds: mapIds,
     registerMap: (mapId, mapInstance) => {
       if(mapId && mapInstance){
-        maps[mapId] = mapInstance;
-        mapIds_raw.push(mapId);
-        setMapIds(mapIds_raw);
+        maps.current[mapId] = mapInstance;
+        mapIds_raw.current.push(mapId);
+        setMapIds(mapIds_raw.current);
 
         if(!map){
           setMap(mapInstance);
