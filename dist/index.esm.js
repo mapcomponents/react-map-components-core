@@ -114,9 +114,11 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
     newMapTrigger: mapIds,
     registerMap: function registerMap(mapId, mapInstance) {
       if (mapId && mapInstance) {
+        console.log('register map');
         maps.current[mapId] = mapInstance;
         mapIds_raw.current.push(mapId);
         setMapIds(mapIds_raw.current);
+        console.log(mapIds_raw.current);
 
         if (!map) {
           _setMap(mapInstance);

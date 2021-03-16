@@ -35,6 +35,7 @@ const MapComponentsProvider = ({ children }) => {
         mapIds_raw.current.push(mapId);
         setMapIds(mapIds_raw.current);
 
+        console.log(mapIds_raw.current)
         if(!map){
           setMap(mapInstance);
         }
