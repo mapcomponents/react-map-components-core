@@ -14,7 +14,6 @@ const MapComponentsProvider = ({ children }) => {
   const [mapIds, setMapIds] = useState([]);
   let mapIds_raw = useRef([]);
   let maps = useRef({});
-  let [mapTrigger, setMapTrigger] = useState(0);
 
   const value = {
     map: map,
@@ -27,8 +26,7 @@ const MapComponentsProvider = ({ children }) => {
       }
     },
     maps: maps.current,
-    mapIds: mapIds_raw.current,
-    newMapTrigger: mapIds,
+    mapIds: mapIds,
     registerMap: (mapId, mapInstance) => {
       if(mapId && mapInstance){
         console.log('register map');

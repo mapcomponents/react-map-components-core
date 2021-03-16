@@ -99,12 +99,6 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
 
   var mapIds_raw = useRef([]);
   var maps = useRef({});
-
-  var _useState5 = useState(0),
-      _useState6 = _slicedToArray(_useState5, 2);
-      _useState6[0];
-      _useState6[1];
-
   var value = {
     map: map,
     setMap: function setMap(mapInstance) {
@@ -116,8 +110,7 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
       }
     },
     maps: maps.current,
-    mapIds: mapIds_raw.current,
-    newMapTrigger: mapIds,
+    mapIds: mapIds,
     registerMap: function registerMap(mapId, mapInstance) {
       if (mapId && mapInstance) {
         console.log('register map');
