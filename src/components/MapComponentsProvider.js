@@ -30,6 +30,7 @@ const MapComponentsProvider = ({ children }) => {
     newMapTrigger: mapIds,
     registerMap: (mapId, mapInstance) => {
       if(mapId && mapInstance){
+        console.log('register map');
         maps.current[mapId] = mapInstance;
         mapIds_raw.current.push(mapId);
         setMapIds(mapIds_raw.current);
