@@ -108,6 +108,12 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
 
   var mapIds_raw = React.useRef([]);
   var maps = React.useRef({});
+
+  var _useState5 = React.useState(0),
+      _useState6 = _slicedToArray(_useState5, 2);
+      _useState6[0];
+      _useState6[1];
+
   var value = {
     map: map,
     setMap: function setMap(mapInstance) {
@@ -126,7 +132,7 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
         console.log('register map');
         maps.current[mapId] = mapInstance;
         mapIds_raw.current.push(mapId);
-        setMapIds(mapIds_raw.current);
+        setMapIds(_toConsumableArray(mapIds_raw.current));
         console.log(mapIds_raw.current);
 
         if (!map) {
