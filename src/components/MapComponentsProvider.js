@@ -27,6 +27,7 @@ const MapComponentsProvider = ({ children }) => {
     },
     maps: maps.current,
     mapIds: mapIds_raw.current,
+    newMapTrigger: mapIds,
     registerMap: (mapId, mapInstance) => {
       if(mapId && mapInstance){
         maps.current[mapId] = mapInstance;
