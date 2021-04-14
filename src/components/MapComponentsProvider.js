@@ -39,7 +39,19 @@ const MapComponentsProvider = ({ children }) => {
           setMap(mapInstance);
         }
       }
-    }
+    },
+    mapExists: mapId => {
+      if (mapId && mapIds.indexOf(mapId) === -1) {
+        return maps[mapId];
+      } else if (!mapId && map) {
+        return map;
+      }
+
+      return null;
+    },
+    getMap: mapId => {
+
+    },
   };
 
   return <MapContextProvider value={value}>{children}</MapContextProvider>;
