@@ -42,15 +42,20 @@ const MapComponentsProvider = ({ children }) => {
     },
     mapExists: mapId => {
       if (mapId && mapIds.indexOf(mapId) === -1) {
+        return false;
+      } else if (!mapId && !map) {
+        return false;
+      }
+      return true;
+    },
+    getMap: mapId => {
+      if (mapId && mapIds.indexOf(mapId) === -1) {
         return maps[mapId];
       } else if (!mapId && map) {
         return map;
       }
 
       return null;
-    },
-    getMap: mapId => {
-
     },
   };
 
