@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { json, csv, xml } from 'd3';
 
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
@@ -77,11 +78,10 @@ var MapContext = /*#__PURE__*/React.createContext({});
 var MapContextProvider = MapContext.Provider;
 
 /**
- * TODO Update readme for multi instance functionality
- * MapComponentsProvider must be imported and wrapped around component where at least one of its child nodes requires access to the MapLibreMaps object.
+ * MapComponentsProvider must be imported and wrapped around component where at least one of its child nodes requires access to a MapLibre-gl or openlayers instance that is registered in this mapContext.
 MapComponentsProvider must be used one level higher than the first use of MapContext.
  *
- * MapComponentsProvider requires exactly one use of the MapLibreMap component somewhere down the component tree that will create the MapLibre-gl object and set the reference at MapContext.map.
+ * MapComponentsProvider requires at least one use of the MapLibreMap component somewhere down the component tree that will create the MapLibre-gl object and set the reference at MapContext.map. For MapLibre maps it is a good idea to provide a mapId attribute to the MapLibreMap Component even if you are only using a single map instance at start. It will make a later transition to using multiple instances within the same project much easier.
  */
 
 var MapComponentsProvider = function MapComponentsProvider(_ref) {
@@ -123,6 +123,24 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
           _setMap(mapInstance);
         }
       }
+    },
+    mapExists: function mapExists(mapId) {
+      if (mapId && mapIds.indexOf(mapId) === -1) {
+        return false;
+      } else if (!mapId && !map) {
+        return false;
+      }
+
+      return true;
+    },
+    getMap: function getMap(mapId) {
+      if (mapId && mapIds.indexOf(mapId) === -1) {
+        return maps[mapId];
+      } else if (!mapId && map) {
+        return map;
+      }
+
+      return null;
     }
   };
   return /*#__PURE__*/React.createElement(MapContextProvider, {
@@ -134,40 +152,62 @@ MapComponentsProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-/**
- * TODO: Update comments for multi instance
- *
- * MultiMapComponentsProvider must be imported and wrapped around component where at least one of its child nodes requires access to the MapLibreMaps object.
-MultiMapComponentsProvider must be used one level higher than the first use of MultiMapContext.
- *
- * MultiMapComponentsProvider requires exactly one use of the MapLibreMap component somewhere down the component tree that will create the MapLibre-gl object and set the reference at MultiMapContext.map.
- */
+var SimpleDataContext = /*#__PURE__*/React.createContext({});
+var SimpleDataContextProvider = SimpleDataContext.Provider;
 
-var MultiMapComponentsProvider = function MultiMapComponentsProvider(_ref) {
-  var children = _ref.children;
-
-  var _useState = useState([]),
+var SimpleDataProvider = function SimpleDataProvider(props) {
+  var _useState = useState(null),
       _useState2 = _slicedToArray(_useState, 2),
-      mapIds = _useState2[0],
-      setMapIds = _useState2[1];
+      data = _useState2[0],
+      setData = _useState2[1];
 
-  var maps = {};
-  var value = {
-    maps: maps,
-    registerMap: function registerMap(mapId, map) {
-      if (mapId && map) {
-        maps[mapId] = map;
-        setMapIds([].concat(_toConsumableArray(mapIds), [mapId]));
-      }
+  useEffect(function () {
+    if (!props.url) return;
+    var data_promise = null;
+
+    if (props.format === "json") {
+      data_promise = json(props.url);
+    } else if (props.format === "csv") {
+      data_promise = csv(props.url);
+    } else if (props.format === "xml") {
+      data_promise = xml(props.url);
     }
+
+    if (data_promise) {
+      data_promise.then(function (received_data) {
+        if (props.format === "xml") {
+          if (props.nodeType) {
+            var dataTmp = [];
+            received_data.querySelectorAll(props.nodeType).forEach(function (el) {
+              dataTmp.push(props.formatData(el));
+            });
+            setData(dataTmp);
+          }
+        } else {
+          if (props.data_property) {
+            received_data = received_data[props.data_property];
+          }
+
+          if (props.formatData) {
+            setData(received_data.map(props.formatData));
+          } else {
+            setData(received_data);
+          }
+        }
+      });
+    }
+  }, [props.url]);
+  var value = {
+    data: data,
+    setData: setData
   };
-  return /*#__PURE__*/React.createElement(MapContextProvider, {
+  return /*#__PURE__*/React.createElement(SimpleDataContextProvider, {
     value: value
-  }, children);
+  }, props.children);
 };
 
-MultiMapComponentsProvider.propTypes = {
+SimpleDataProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export { MapComponentsProvider, MapContext, MultiMapComponentsProvider };
+export { MapComponentsProvider, MapContext, SimpleDataContext, SimpleDataProvider };
