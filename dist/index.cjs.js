@@ -144,7 +144,7 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
     },
     getMap: function getMap(mapId) {
       if (mapId && mapIds.indexOf(mapId) === -1) {
-        return maps[mapId];
+        return maps.current[mapId];
       } else if (!mapId && map) {
         return map;
       }
