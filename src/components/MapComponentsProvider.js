@@ -48,7 +48,7 @@ const MapComponentsProvider = ({ children }) => {
       return true;
     },
     getMap: mapId => {
-      if (mapId && mapIds.indexOf(mapId) === -1) {
+      if (mapId && mapIds.indexOf(mapId) !== -1) {
         return maps.current[mapId];
       } else if (!mapId && map) {
         return map;
