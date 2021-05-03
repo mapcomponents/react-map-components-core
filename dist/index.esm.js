@@ -175,7 +175,7 @@ var SimpleDataProvider = function SimpleDataProvider(props) {
             received_data = received_data[props.data_property];
           }
 
-          if (typeof props.formatData === 'function') {
+          if (typeof props.formatData === "function") {
             setData(received_data.map(props.formatData));
           } else {
             setData(received_data);
@@ -183,7 +183,11 @@ var SimpleDataProvider = function SimpleDataProvider(props) {
         }
       });
     }
-  }, [props.url]);
+
+    if (typeof props.onData === "function") {
+      props.onData();
+    }
+  }, [props.url, props]);
   var value = {
     data: data,
     setData: setData
