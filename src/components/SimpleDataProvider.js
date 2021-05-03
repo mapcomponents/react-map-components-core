@@ -37,10 +37,10 @@ const SimpleDataProvider = (props) => {
             setData(received_data);
           }
         }
+        if (typeof props.onData === "function") {
+          props.onData();
+        }
       });
-    }
-    if (typeof props.onData === "function") {
-      props.onData();
     }
   }, [props.url, props]);
 
