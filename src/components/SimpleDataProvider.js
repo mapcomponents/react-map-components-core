@@ -33,9 +33,10 @@ const SimpleDataProvider = (props) => {
                     if (props.data_property) {
                         received_data = received_data[props.data_property];
                     }
-                    if (props.formatData) {
+                    if (typeof props.formatData === 'function') {
 
                         setData(received_data.map(props.formatData))
+
                     } else {
                         setData(received_data)
                     }

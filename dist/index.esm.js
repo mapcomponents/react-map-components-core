@@ -1,36 +1,105 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { json, csv, xml } from 'd3';
+import * as d3 from 'd3';
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+function __spreadArray(to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+}
+
+var MapContext = React.createContext({});
+var MapContextProvider = MapContext.Provider;
+
+var MapComponentsProvider = function (_a) {
+    var children = _a.children;
+    var _b = useState(undefined), map = _b[0], setMap = _b[1];
+    var _c = useState([]), mapIds = _c[0], setMapIds = _c[1];
+    var mapIds_raw = useRef([]);
+    var maps = useRef({});
+    var value = {
+        map: map,
+        setMap: function (mapInstance) {
+            setMap(mapInstance);
+            if (mapIds.length === 0) {
+                setMapIds(__spreadArray(__spreadArray([], mapIds), ['map_1']));
+                maps.current['map_1'] = mapInstance;
+            }
+        },
+        maps: maps.current,
+        mapIds: mapIds,
+        registerMap: function (mapId, mapInstance) {
+            if (mapId && mapInstance) {
+                console.log('register map');
+                maps.current[mapId] = mapInstance;
+                mapIds_raw.current.push(mapId);
+                setMapIds(__spreadArray([], mapIds_raw.current));
+                console.log(mapIds_raw.current);
+                if (!map) {
+                    setMap(mapInstance);
+                }
+            }
+        },
+        mapExists: function (mapId) {
+            if (mapId && mapIds.indexOf(mapId) === -1) {
+                return false;
+            }
+            else if (!mapId && !map) {
+                return false;
+            }
+            return true;
+        },
+        getMap: function (mapId) {
+            if (mapId && mapIds.indexOf(mapId) !== -1) {
+                return maps.current[mapId];
+            }
+            else if (!mapId && map) {
+                return map;
+            }
+            return null;
+        },
+    };
+    return React.createElement(MapContextProvider, { value: value }, children);
+};
+MapComponentsProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
 
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
 }
 
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-
 function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]);
+
+  if (_i == null) return;
   var _arr = [];
   var _n = true;
   var _d = false;
-  var _e = undefined;
+
+  var _s, _e;
 
   try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
       _arr.push(_s.value);
 
       if (i && _arr.length === i) break;
@@ -66,91 +135,9 @@ function _arrayLikeToArray(arr, len) {
   return arr2;
 }
 
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-
-var MapContext = /*#__PURE__*/React.createContext({});
-var MapContextProvider = MapContext.Provider;
-
-/**
- * MapComponentsProvider must be imported and wrapped around component where at least one of its child nodes requires access to a MapLibre-gl or openlayers instance that is registered in this mapContext.
-MapComponentsProvider must be used one level higher than the first use of MapContext.
- *
- * MapComponentsProvider requires at least one use of the MapLibreMap component somewhere down the component tree that will create the MapLibre-gl object and set the reference at MapContext.map. For MapLibre maps it is a good idea to provide a mapId attribute to the MapLibreMap Component even if you are only using a single map instance at start. It will make a later transition to using multiple instances within the same project much easier.
- */
-
-var MapComponentsProvider = function MapComponentsProvider(_ref) {
-  var children = _ref.children;
-
-  var _useState = useState(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      map = _useState2[0],
-      _setMap = _useState2[1];
-
-  var _useState3 = useState([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      mapIds = _useState4[0],
-      setMapIds = _useState4[1];
-
-  var mapIds_raw = useRef([]);
-  var maps = useRef({});
-  var value = {
-    map: map,
-    setMap: function setMap(mapInstance) {
-      _setMap(mapInstance);
-
-      if (mapIds.length === 0) {
-        setMapIds([].concat(_toConsumableArray(mapIds), ['map_1']));
-        maps.current['map_1'] = mapInstance;
-      }
-    },
-    maps: maps.current,
-    mapIds: mapIds,
-    registerMap: function registerMap(mapId, mapInstance) {
-      if (mapId && mapInstance) {
-        console.log('register map');
-        maps.current[mapId] = mapInstance;
-        mapIds_raw.current.push(mapId);
-        setMapIds(_toConsumableArray(mapIds_raw.current));
-        console.log(mapIds_raw.current);
-
-        if (!map) {
-          _setMap(mapInstance);
-        }
-      }
-    },
-    mapExists: function mapExists(mapId) {
-      if (mapId && mapIds.indexOf(mapId) === -1) {
-        return false;
-      } else if (!mapId && !map) {
-        return false;
-      }
-
-      return true;
-    },
-    getMap: function getMap(mapId) {
-      if (mapId && mapIds.indexOf(mapId) !== -1) {
-        return maps.current[mapId];
-      } else if (!mapId && map) {
-        return map;
-      }
-
-      return null;
-    }
-  };
-  return /*#__PURE__*/React.createElement(MapContextProvider, {
-    value: value
-  }, children);
-};
-
-MapComponentsProvider.propTypes = {
-  children: PropTypes.node.isRequired
-};
 
 var SimpleDataContext = /*#__PURE__*/React.createContext({});
 var SimpleDataContextProvider = SimpleDataContext.Provider;
@@ -166,11 +153,11 @@ var SimpleDataProvider = function SimpleDataProvider(props) {
     var data_promise = null;
 
     if (props.format === "json") {
-      data_promise = json(props.url);
+      data_promise = d3.json(props.url);
     } else if (props.format === "csv") {
-      data_promise = csv(props.url);
+      data_promise = d3.csv(props.url);
     } else if (props.format === "xml") {
-      data_promise = xml(props.url);
+      data_promise = d3.xml(props.url);
     }
 
     if (data_promise) {
@@ -188,7 +175,7 @@ var SimpleDataProvider = function SimpleDataProvider(props) {
             received_data = received_data[props.data_property];
           }
 
-          if (props.formatData) {
+          if (typeof props.formatData === 'function') {
             setData(received_data.map(props.formatData));
           } else {
             setData(received_data);
@@ -211,3 +198,4 @@ SimpleDataProvider.propTypes = {
 };
 
 export { MapComponentsProvider, MapContext, SimpleDataContext, SimpleDataProvider };
+//# sourceMappingURL=index.esm.js.map
