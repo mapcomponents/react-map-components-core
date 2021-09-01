@@ -45,14 +45,33 @@ var MapComponentsProvider = function (_a) {
         mapIds: mapIds,
         registerMap: function (mapId, mapInstance) {
             if (mapId && mapInstance) {
-                console.log('register map');
                 maps.current[mapId] = mapInstance;
                 mapIds_raw.current.push(mapId);
                 setMapIds(__spreadArray([], mapIds_raw.current));
-                console.log(mapIds_raw.current);
                 if (!map) {
                     setMap(mapInstance);
                 }
+            }
+        },
+        removeMap: function (mapId) {
+            if (mapId) {
+                if (typeof maps.current[mapId] !== 'undefined') {
+                    maps.current[mapId] = null;
+                }
+                var mapIdIndex = mapIds_raw.current.indexOf(mapId);
+                if (mapIdIndex > -1) {
+                    mapIds_raw.current.splice(mapIdIndex, 1);
+                }
+                setMapIds(__spreadArray([], mapIds_raw.current));
+                if (map) {
+                    setMap(null);
+                }
+            }
+            else {
+                setMap(null);
+                mapIds_raw.current = [];
+                setMapIds([]);
+                maps.current = {};
             }
         },
         mapExists: function (mapId) {

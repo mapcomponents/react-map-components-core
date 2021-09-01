@@ -33,15 +33,34 @@ const MapComponentsProvider = ({ children }: Props) => {
     mapIds: mapIds,
     registerMap: (mapId:string, mapInstance:MapInstance) => {
       if(mapId && mapInstance){
-        console.log('register map');
         maps.current[mapId] = mapInstance;
         mapIds_raw.current.push(mapId);
         setMapIds([...mapIds_raw.current]);
 
-        console.log(mapIds_raw.current)
         if(!map){
           setMap(mapInstance);
         }
+      }
+    },
+    removeMap: (mapId:string) => {
+      if(mapId){
+        if(typeof maps.current[mapId] !== 'undefined'){
+          maps.current[mapId] = null;
+        }
+        let mapIdIndex = mapIds_raw.current.indexOf(mapId);
+        if (mapIdIndex > -1) {
+          mapIds_raw.current.splice(mapIdIndex, 1);
+        }
+        setMapIds([...mapIds_raw.current]);
+
+        if(map){
+          setMap(null);
+        }
+      }else{
+        setMap(null);
+        mapIds_raw.current = [];
+        setMapIds([]);
+        maps.current = {};
       }
     },
     mapExists: (mapId:string) => {
