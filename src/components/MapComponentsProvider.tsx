@@ -23,6 +23,9 @@ const MapComponentsProvider = ({ children }: Props) => {
     map: map,
     setMap: (mapInstance:MapInstance) => {
       mapInstance.once('load',() => {
+        console.log('Map is ready')
+        console.log(mapInstance)
+        console.log(mapInstance.style)
         setMap(mapInstance);
 
         if(mapIds.length === 0){
@@ -36,6 +39,9 @@ const MapComponentsProvider = ({ children }: Props) => {
     registerMap: (mapId:string, mapInstance:MapInstance) => {
       if(mapId && mapInstance){
         mapInstance.once('load',() => {
+          console.log('Map is ready')
+          console.log(mapInstance)
+          console.log(mapInstance.style)
           maps.current[mapId] = mapInstance;
           mapIds_raw.current.push(mapId);
           setMapIds([...mapIds_raw.current]);

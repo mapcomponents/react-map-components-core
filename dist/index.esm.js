@@ -36,6 +36,9 @@ var MapComponentsProvider = function (_a) {
         map: map,
         setMap: function (mapInstance) {
             mapInstance.once('load', function () {
+                console.log('Map is ready');
+                console.log(mapInstance);
+                console.log(mapInstance.style);
                 setMap(mapInstance);
                 if (mapIds.length === 0) {
                     setMapIds(__spreadArray(__spreadArray([], mapIds), ['map_1']));
@@ -48,6 +51,9 @@ var MapComponentsProvider = function (_a) {
         registerMap: function (mapId, mapInstance) {
             if (mapId && mapInstance) {
                 mapInstance.once('load', function () {
+                    console.log('Map is ready');
+                    console.log(mapInstance);
+                    console.log(mapInstance.style);
                     maps.current[mapId] = mapInstance;
                     mapIds_raw.current.push(mapId);
                     setMapIds(__spreadArray([], mapIds_raw.current));
