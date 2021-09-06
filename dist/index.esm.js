@@ -35,22 +35,26 @@ var MapComponentsProvider = function (_a) {
     var value = {
         map: map,
         setMap: function (mapInstance) {
-            setMap(mapInstance);
-            if (mapIds.length === 0) {
-                setMapIds(__spreadArray(__spreadArray([], mapIds), ['map_1']));
-                maps.current['map_1'] = mapInstance;
-            }
+            mapInstance.once('load', function () {
+                setMap(mapInstance);
+                if (mapIds.length === 0) {
+                    setMapIds(__spreadArray(__spreadArray([], mapIds), ['map_1']));
+                    maps.current['map_1'] = mapInstance;
+                }
+            });
         },
         maps: maps.current,
         mapIds: mapIds,
         registerMap: function (mapId, mapInstance) {
             if (mapId && mapInstance) {
-                maps.current[mapId] = mapInstance;
-                mapIds_raw.current.push(mapId);
-                setMapIds(__spreadArray([], mapIds_raw.current));
-                if (!map) {
-                    setMap(mapInstance);
-                }
+                mapInstance.once('load', function () {
+                    maps.current[mapId] = mapInstance;
+                    mapIds_raw.current.push(mapId);
+                    setMapIds(__spreadArray([], mapIds_raw.current));
+                    if (!map) {
+                        setMap(mapInstance);
+                    }
+                });
             }
         },
         removeMap: function (mapId) {

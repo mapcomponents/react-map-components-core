@@ -22,24 +22,28 @@ const MapComponentsProvider = ({ children }: Props) => {
   const value = {
     map: map,
     setMap: (mapInstance:MapInstance) => {
-      setMap(mapInstance);
+      mapInstance.once('load',() => {
+        setMap(mapInstance);
 
-      if(mapIds.length === 0){
-        setMapIds([...mapIds, 'map_1']);
-        maps.current['map_1'] = mapInstance;
-      }
+        if(mapIds.length === 0){
+          setMapIds([...mapIds, 'map_1']);
+          maps.current['map_1'] = mapInstance;
+        }
+      });
     },
     maps: maps.current,
     mapIds: mapIds,
     registerMap: (mapId:string, mapInstance:MapInstance) => {
       if(mapId && mapInstance){
-        maps.current[mapId] = mapInstance;
-        mapIds_raw.current.push(mapId);
-        setMapIds([...mapIds_raw.current]);
+        mapInstance.once('load',() => {
+          maps.current[mapId] = mapInstance;
+          mapIds_raw.current.push(mapId);
+          setMapIds([...mapIds_raw.current]);
 
-        if(!map){
-          setMap(mapInstance);
-        }
+          if(!map){
+            setMap(mapInstance);
+          }
+        });
       }
     },
     removeMap: (mapId:string) => {
