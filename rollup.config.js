@@ -7,7 +7,10 @@ import typescript from "@rollup/plugin-typescript";
 
 export default {
   input: pkg.source,
-  output: [{ file: pkg.module, format: "esm", sourcemap:true }],
+  output: [
+    { file: pkg.module, format: "esm", sourcemap:true },
+    { file: pkg.main, format: "esm", sourcemap:true },
+  ],
   plugins: [
     typescript({
       tsconfig: "tsconfig.json",
