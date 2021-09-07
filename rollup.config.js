@@ -9,7 +9,7 @@ export default {
   input: pkg.source,
   output: [
     { file: pkg.module, format: "esm", sourcemap:true },
-    { file: pkg.main, format: "esm", sourcemap:true },
+    { file: pkg.main, format: "cjs", sourcemap:true },
   ],
   plugins: [
     typescript({

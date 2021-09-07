@@ -1,6 +1,36 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import * as d3 from 'd3';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var React = require('react');
+var PropTypes = require('prop-types');
+var d3 = require('d3');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+function _interopNamespace(e) {
+  if (e && e.__esModule) return e;
+  var n = Object.create(null);
+  if (e) {
+    Object.keys(e).forEach(function (k) {
+      if (k !== 'default') {
+        var d = Object.getOwnPropertyDescriptor(e, k);
+        Object.defineProperty(n, k, d.get ? d : {
+          enumerable: true,
+          get: function () {
+            return e[k];
+          }
+        });
+      }
+    });
+  }
+  n['default'] = e;
+  return Object.freeze(n);
+}
+
+var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
+var PropTypes__default = /*#__PURE__*/_interopDefaultLegacy(PropTypes);
+var d3__namespace = /*#__PURE__*/_interopNamespace(d3);
 
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
@@ -77,7 +107,7 @@ function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
-var MapContext = /*#__PURE__*/React.createContext({});
+var MapContext = /*#__PURE__*/React__default['default'].createContext({});
 var MapContextProvider = MapContext.Provider;
 
 /**
@@ -90,18 +120,18 @@ MapComponentsProvider must be used one level higher than the first use of MapCon
 var MapComponentsProvider = function MapComponentsProvider(_ref) {
   var children = _ref.children;
 
-  var _useState = useState(undefined),
+  var _useState = React.useState(undefined),
       _useState2 = _slicedToArray(_useState, 2),
       map = _useState2[0],
       _setMap = _useState2[1];
 
-  var _useState3 = useState([]),
+  var _useState3 = React.useState([]),
       _useState4 = _slicedToArray(_useState3, 2),
       mapIds = _useState4[0],
       setMapIds = _useState4[1];
 
-  var mapIds_raw = useRef([]);
-  var maps = useRef({});
+  var mapIds_raw = React.useRef([]);
+  var maps = React.useRef({});
   var value = {
     map: map,
     setMap: function setMap(mapInstance) {
@@ -170,34 +200,34 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
       return null;
     }
   };
-  return /*#__PURE__*/React.createElement(MapContextProvider, {
+  return /*#__PURE__*/React__default['default'].createElement(MapContextProvider, {
     value: value
   }, children);
 };
 
 MapComponentsProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes__default['default'].node.isRequired
 };
 
-var SimpleDataContext = /*#__PURE__*/React.createContext({});
+var SimpleDataContext = /*#__PURE__*/React__default['default'].createContext({});
 var SimpleDataContextProvider = SimpleDataContext.Provider;
 
 var SimpleDataProvider = function SimpleDataProvider(props) {
-  var _useState = useState(null),
+  var _useState = React.useState(null),
       _useState2 = _slicedToArray(_useState, 2),
       data = _useState2[0],
       setData = _useState2[1];
 
-  useEffect(function () {
+  React.useEffect(function () {
     if (!props.url) return;
     var data_promise = null;
 
     if (props.format === "json") {
-      data_promise = d3.json(props.url);
+      data_promise = d3__namespace.json(props.url);
     } else if (props.format === "csv") {
-      data_promise = d3.csv(props.url);
+      data_promise = d3__namespace.csv(props.url);
     } else if (props.format === "xml") {
-      data_promise = d3.xml(props.url);
+      data_promise = d3__namespace.xml(props.url);
     }
 
     if (data_promise) {
@@ -232,14 +262,17 @@ var SimpleDataProvider = function SimpleDataProvider(props) {
     data: data,
     setData: setData
   };
-  return /*#__PURE__*/React.createElement(SimpleDataContextProvider, {
+  return /*#__PURE__*/React__default['default'].createElement(SimpleDataContextProvider, {
     value: value
   }, props.children);
 };
 
 SimpleDataProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes__default['default'].node.isRequired
 };
 
-export { MapComponentsProvider, MapContext, SimpleDataContext, SimpleDataProvider };
+exports.MapComponentsProvider = MapComponentsProvider;
+exports.MapContext = MapContext;
+exports.SimpleDataContext = SimpleDataContext;
+exports.SimpleDataProvider = SimpleDataProvider;
 //# sourceMappingURL=index.cjs.js.map
