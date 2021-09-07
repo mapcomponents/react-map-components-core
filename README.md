@@ -12,9 +12,13 @@ and run ```yarn install```
 
 ## Available Scripts
 
-### `yarn update && yarn build`
+### `yarn build`
 
 Build the component library and save it to ```./dist```.
+
+### `yarn test` or `yarn test --coverage --watchall=false`
+
+Run tests.
 
 ## Components
 

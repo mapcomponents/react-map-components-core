@@ -23,6 +23,7 @@ const SimpleDataProvider = (props) => {
           if (props.nodeType) {
             let dataTmp = [];
             received_data.querySelectorAll(props.nodeType).forEach((el) => {
+
               dataTmp.push(props.formatData(el));
             });
             setData(dataTmp);
