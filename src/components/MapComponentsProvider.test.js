@@ -1,7 +1,19 @@
 import React, {useContext} from 'react';
 import MapContext from './MapContext';
 import MapComponentsProvider from './MapComponentsProvider';
-import {mount, configure} from 'enzyme';
+import {mount} from 'enzyme';
+
+const MapObjectTestBlock = ({mapId}) => {
+  const mapContext = useContext(MapContext);
+
+  return <>
+    <button className={'register_' +mapId} onClick={() => {mapContext.registerMap(mapId,{id:mapId})}}>set {mapId}</button>
+    <button className={'remove_' + mapId} onClick={() => {mapContext.removeMap(mapId)}}>set {mapId}</button>
+    <div className={mapId + '_found'}>{mapContext.mapExists(mapId) ? 'true':'false'}</div>
+    <div className={mapId + '_id'}>{mapContext.mapExists(mapId) ? mapContext.getMap(mapId).id:''}</div>
+    <div className={mapId + '_id_position_in_map_ids'}>{mapContext.mapIds.indexOf(mapId)}</div>
+  </>;
+}
 
 const MapContextTestComponent = () => {
   const mapContext = useContext(MapContext);
@@ -14,17 +26,7 @@ const MapContextTestComponent = () => {
     <div className="anonymous_map_found">{mapContext.mapExists() ? 'true':'false'}</div>
     <div className="get_anonymous_map">{mapContext.getMap() ? 'true':'false'}</div>
 
-    <button className="register_map_1" onClick={() => {mapContext.registerMap('map_1',{id:'map_1'})}}>set map 1</button>
-    <button className="remove_map_1" onClick={() => {mapContext.removeMap('map_1')}}>set map 1</button>
-    <div className="map_1_found">{mapContext.mapExists('map_1') ? 'true':'false'}</div>
-    <div className="map_1_id">{mapContext.mapExists('map_1') ? mapContext.getMap('map_1').id:''}</div>
-    <div className="map_1_id_position_in_map_ids">{mapContext.mapIds.indexOf('map_1')}</div>
-
-    <button className="register_map_2" onClick={() => {mapContext.registerMap('map_2',{id:'map_2'})}}>set map 2</button>
-    <button className="remove_map_2" onClick={() => {mapContext.removeMap('map_2')}}>set map 2</button>
-    <div className="map_2_found">{mapContext.mapExists('map_2') ? 'true':'false'}</div>
-    <div className="map_2_id">{mapContext.mapExists('map_2') ? mapContext.getMap('map_2').id:''}</div>
-    <div className="map_2_id_position_in_map_ids">{mapContext.mapIds.indexOf('map_2')}</div>
+    { ['map_1','map_2'].map(mapId => <MapObjectTestBlock mapId={mapId} key={mapId} />)}
     </>;
 }
 
