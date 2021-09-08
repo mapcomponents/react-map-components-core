@@ -102,13 +102,38 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
 
   var mapIds_raw = useRef([]);
   var maps = useRef({});
+
+  var removeMap = function removeMap(mapId) {
+    if (mapId) {
+      if (typeof maps.current[mapId] !== 'undefined') {
+        maps.current[mapId] = null;
+      }
+
+      var mapIdIndex = mapIds_raw.current.indexOf(mapId);
+
+      if (mapIdIndex > -1) {
+        mapIds_raw.current.splice(mapIdIndex, 1);
+      }
+
+      setMapIds(_toConsumableArray(mapIds_raw.current));
+
+      if (mapIds.length === 1 && map) {
+        _setMap(undefined);
+      }
+    } else {
+      _setMap(undefined);
+
+      removeMap('anonymous_map');
+    }
+  };
+
   var value = {
     map: map,
     setMap: function setMap(mapInstance) {
       _setMap(mapInstance);
 
       if (mapIds.length === 0) {
-        var mapId = Math.round(Math.random() * 100000000);
+        var mapId = 'anonymous_map';
         setMapIds([].concat(_toConsumableArray(mapIds), [mapId]));
         maps.current[mapId] = mapInstance;
       }
@@ -126,33 +151,7 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
         }
       }
     },
-    removeMap: function removeMap(mapId) {
-      if (mapId) {
-        if (typeof maps.current[mapId] !== 'undefined') {
-          maps.current[mapId] = null;
-        }
-
-        var mapIdIndex = mapIds_raw.current.indexOf(mapId);
-
-        if (mapIdIndex > -1) {
-          mapIds_raw.current.splice(mapIdIndex, 1);
-        }
-
-        setMapIds(_toConsumableArray(mapIds_raw.current));
-
-        if (mapIds.length === 1 && map) {
-          _setMap(undefined);
-        }
-      } else {
-        _setMap(undefined);
-
-        if (mapIds.length === 0) {
-          mapIds_raw.current = [];
-          setMapIds([]);
-          maps.current = {};
-        }
-      }
-    },
+    removeMap: removeMap,
     mapExists: function mapExists(mapId) {
       if (mapId && mapIds.indexOf(mapId) === -1) {
         return false;
