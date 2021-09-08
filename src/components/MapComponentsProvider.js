@@ -15,13 +15,33 @@ const MapComponentsProvider = ({ children }) => {
   let mapIds_raw = useRef([]);
   let maps = useRef({});
 
+  const removeMap = (mapId) => {
+      if(mapId){
+        if(typeof maps.current[mapId] !== 'undefined'){
+          maps.current[mapId] = null;
+        }
+        let mapIdIndex = mapIds_raw.current.indexOf(mapId);
+        if (mapIdIndex > -1) {
+          mapIds_raw.current.splice(mapIdIndex, 1);
+        }
+        setMapIds([...mapIds_raw.current]);
+
+        if(mapIds.length === 1 && map){
+          setMap(undefined);
+        }
+      }else{
+        setMap(undefined);
+        removeMap('anonymous_map');
+      }
+    }
+
   const value = {
     map: map,
     setMap: (mapInstance) => {
         setMap(mapInstance);
 
         if(mapIds.length === 0){
-          let mapId = Math.round(Math.random()*100000000);
+          let mapId = 'anonymous_map';
           setMapIds([...mapIds, mapId]);
           maps.current[mapId] = mapInstance;
         }
@@ -39,27 +59,7 @@ const MapComponentsProvider = ({ children }) => {
           }
       }
     },
-    removeMap: (mapId) => {
-      if(mapId){
-        if(typeof maps.current[mapId] !== 'undefined'){
-          maps.current[mapId] = null;
-        }
-        let mapIdIndex = mapIds_raw.current.indexOf(mapId);
-        if (mapIdIndex > -1) {
-          mapIds_raw.current.splice(mapIdIndex, 1);
-        }
-        setMapIds([...mapIds_raw.current]);
-
-        if(mapIds.length === 1 && map){
-          setMap(undefined);
-        }
-      }else{
-        setMap(undefined);
-        mapIds_raw.current = [];
-        setMapIds([]);
-        maps.current = {};
-      }
-    },
+    removeMap,
     mapExists: (mapId) => {
       if (mapId && mapIds.indexOf(mapId) === -1) {
         return false;

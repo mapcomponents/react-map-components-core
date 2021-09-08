@@ -176,9 +176,11 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
       } else {
         _setMap(undefined);
 
-        mapIds_raw.current = [];
-        setMapIds([]);
-        maps.current = {};
+        if (mapIds.length === 0) {
+          mapIds_raw.current = [];
+          setMapIds([]);
+          maps.current = {};
+        }
       }
     },
     mapExists: function mapExists(mapId) {
