@@ -18,7 +18,7 @@ const MapComponentsProvider = ({ children }) => {
   const removeMap = (mapId) => {
       if(mapId){
         if(typeof maps.current[mapId] !== 'undefined'){
-          maps.current[mapId] = null;
+          delete maps.current[mapId];
         }
         let mapIdIndex = mapIds_raw.current.indexOf(mapId);
         if (mapIdIndex > -1) {
@@ -61,7 +61,7 @@ const MapComponentsProvider = ({ children }) => {
     },
     removeMap,
     mapExists: (mapId) => {
-      if (mapId && mapIds.indexOf(mapId) === -1) {
+      if (mapId && Object.keys(maps.current).indexOf(mapId) === -1) {
         return false;
       } else if (!mapId && !map) {
         return false;

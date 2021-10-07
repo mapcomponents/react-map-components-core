@@ -136,7 +136,7 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
   var removeMap = function removeMap(mapId) {
     if (mapId) {
       if (typeof maps.current[mapId] !== 'undefined') {
-        maps.current[mapId] = null;
+        delete maps.current[mapId];
       }
 
       var mapIdIndex = mapIds_raw.current.indexOf(mapId);
@@ -183,7 +183,7 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
     },
     removeMap: removeMap,
     mapExists: function mapExists(mapId) {
-      if (mapId && mapIds.indexOf(mapId) === -1) {
+      if (mapId && Object.keys(maps.current).indexOf(mapId) === -1) {
         return false;
       } else if (!mapId && !map) {
         return false;
