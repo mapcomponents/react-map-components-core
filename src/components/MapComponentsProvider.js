@@ -15,6 +15,9 @@ const MapComponentsProvider = ({ children }) => {
   let mapIds_raw = useRef([]);
   let maps = useRef({});
 
+  const [mapStates, setMapStates] = useState({});
+  let mapStatesRef = useRef({});
+
   const removeMap = (mapId) => {
       if(mapId){
         if(typeof maps.current[mapId] !== 'undefined'){
@@ -35,28 +38,36 @@ const MapComponentsProvider = ({ children }) => {
       }
     }
 
-  const value = {
-    map: map,
-    setMap: (mapInstance) => {
+  const setMapHandler = (mapInstance, mapState) => {
         setMap(mapInstance);
 
         if(mapIds.length === 0){
           let mapId = 'anonymous_map';
           setMapIds([...mapIds, mapId]);
           maps.current[mapId] = mapInstance;
+          mapStatesRef.current[mapId] = mapState;
+          setMapStates({...mapStatesRef.current});
         }
-    },
+    };
+
+  const value = {
+    map: map,
+    setMap: setMapHandler,
     maps: maps.current,
     mapIds: mapIds,
-    registerMap: (mapId, mapInstance) => {
+    registerMap: (mapId, mapInstance, mapState) => {
       if(mapId && mapInstance){
           maps.current[mapId] = mapInstance;
           mapIds_raw.current.push(mapId);
           setMapIds([...mapIds_raw.current]);
 
+          mapStatesRef.current[mapId] = mapState;
+
           if(!map){
             setMap(mapInstance);
+            mapStatesRef.current['anonymous_map'] = mapState;
           }
+          setMapStates({...mapStatesRef.current});
       }
     },
     removeMap,

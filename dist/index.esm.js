@@ -2,6 +2,59 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+
+    if (enumerableOnly) {
+      symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    }
+
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
@@ -93,7 +146,7 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
   var _useState = useState(undefined),
       _useState2 = _slicedToArray(_useState, 2),
       map = _useState2[0],
-      _setMap = _useState2[1];
+      setMap = _useState2[1];
 
   var _useState3 = useState([]),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -102,6 +155,13 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
 
   var mapIds_raw = useRef([]);
   var maps = useRef({});
+
+  var _useState5 = useState({}),
+      _useState6 = _slicedToArray(_useState5, 2);
+      _useState6[0];
+      var setMapStates = _useState6[1];
+
+  var mapStatesRef = useRef({});
 
   var removeMap = function removeMap(mapId) {
     if (mapId) {
@@ -118,37 +178,44 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
       setMapIds(_toConsumableArray(mapIds_raw.current));
 
       if (mapIds.length === 1 && map) {
-        _setMap(undefined);
+        setMap(undefined);
       }
     } else {
-      _setMap(undefined);
-
+      setMap(undefined);
       removeMap('anonymous_map');
+    }
+  };
+
+  var setMapHandler = function setMapHandler(mapInstance, mapState) {
+    setMap(mapInstance);
+
+    if (mapIds.length === 0) {
+      var mapId = 'anonymous_map';
+      setMapIds([].concat(_toConsumableArray(mapIds), [mapId]));
+      maps.current[mapId] = mapInstance;
+      mapStatesRef.current[mapId] = mapState;
+      setMapStates(_objectSpread2({}, mapStatesRef.current));
     }
   };
 
   var value = {
     map: map,
-    setMap: function setMap(mapInstance) {
-      _setMap(mapInstance);
-
-      if (mapIds.length === 0) {
-        var mapId = 'anonymous_map';
-        setMapIds([].concat(_toConsumableArray(mapIds), [mapId]));
-        maps.current[mapId] = mapInstance;
-      }
-    },
+    setMap: setMapHandler,
     maps: maps.current,
     mapIds: mapIds,
-    registerMap: function registerMap(mapId, mapInstance) {
+    registerMap: function registerMap(mapId, mapInstance, mapState) {
       if (mapId && mapInstance) {
         maps.current[mapId] = mapInstance;
         mapIds_raw.current.push(mapId);
         setMapIds(_toConsumableArray(mapIds_raw.current));
+        mapStatesRef.current[mapId] = mapState;
 
         if (!map) {
-          _setMap(mapInstance);
+          setMap(mapInstance);
+          mapStatesRef.current['anonymous_map'] = mapState;
         }
+
+        setMapStates(_objectSpread2({}, mapStatesRef.current));
       }
     },
     removeMap: removeMap,
