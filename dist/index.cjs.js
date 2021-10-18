@@ -32,59 +32,6 @@ var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 var PropTypes__default = /*#__PURE__*/_interopDefaultLegacy(PropTypes);
 var d3__namespace = /*#__PURE__*/_interopNamespace(d3);
 
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-
-    if (enumerableOnly) {
-      symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-    }
-
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
@@ -216,15 +163,13 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
     }
   };
 
-  var setMapHandler = function setMapHandler(mapInstance, mapState) {
+  var setMapHandler = function setMapHandler(mapInstance) {
     setMap(mapInstance);
 
     if (mapIds.length === 0) {
       var mapId = 'anonymous_map';
       setMapIds([].concat(_toConsumableArray(mapIds), [mapId]));
       maps.current[mapId] = mapInstance;
-      mapStatesRef.current[mapId] = mapState;
-      setMapStates(_objectSpread2({}, mapStatesRef.current));
     }
   };
 
@@ -233,19 +178,15 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
     setMap: setMapHandler,
     maps: maps.current,
     mapIds: mapIds,
-    registerMap: function registerMap(mapId, mapInstance, mapState) {
+    registerMap: function registerMap(mapId, mapInstance) {
       if (mapId && mapInstance) {
         maps.current[mapId] = mapInstance;
         mapIds_raw.current.push(mapId);
         setMapIds(_toConsumableArray(mapIds_raw.current));
-        mapStatesRef.current[mapId] = mapState;
 
         if (!map) {
           setMap(mapInstance);
-          mapStatesRef.current['anonymous_map'] = mapState;
         }
-
-        setMapStates(_objectSpread2({}, mapStatesRef.current));
       }
     },
     removeMap: removeMap,
@@ -266,7 +207,9 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
       }
 
       return null;
-    }
+    },
+    setMapStates: setMapStates,
+    mapStatesRef: mapStatesRef
   };
   return /*#__PURE__*/React__default['default'].createElement(MapContextProvider, {
     value: value
