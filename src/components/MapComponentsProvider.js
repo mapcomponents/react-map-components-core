@@ -38,15 +38,13 @@ const MapComponentsProvider = ({ children }) => {
       }
     }
 
-  const setMapHandler = (mapInstance, mapState) => {
+  const setMapHandler = (mapInstance) => {
         setMap(mapInstance);
 
         if(mapIds.length === 0){
           let mapId = 'anonymous_map';
           setMapIds([...mapIds, mapId]);
           maps.current[mapId] = mapInstance;
-          mapStatesRef.current[mapId] = mapState;
-          setMapStates({...mapStatesRef.current});
         }
     };
 
@@ -55,19 +53,16 @@ const MapComponentsProvider = ({ children }) => {
     setMap: setMapHandler,
     maps: maps.current,
     mapIds: mapIds,
-    registerMap: (mapId, mapInstance, mapState) => {
+    registerMap: (mapId, mapInstance) => {
       if(mapId && mapInstance){
           maps.current[mapId] = mapInstance;
           mapIds_raw.current.push(mapId);
           setMapIds([...mapIds_raw.current]);
 
-          mapStatesRef.current[mapId] = mapState;
 
           if(!map){
             setMap(mapInstance);
-            mapStatesRef.current['anonymous_map'] = mapState;
           }
-          setMapStates({...mapStatesRef.current});
       }
     },
     removeMap,
@@ -88,6 +83,8 @@ const MapComponentsProvider = ({ children }) => {
 
       return null;
     },
+    setMapStates,
+    mapStatesRef
   };
 
   return <MapContextProvider value={value}>{children}</MapContextProvider>;
