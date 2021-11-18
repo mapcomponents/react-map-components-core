@@ -17,14 +17,12 @@ function _interopNamespace(e) {
         var d = Object.getOwnPropertyDescriptor(e, k);
         Object.defineProperty(n, k, d.get ? d : {
           enumerable: true,
-          get: function () {
-            return e[k];
-          }
+          get: function () { return e[k]; }
         });
       }
     });
   }
-  n['default'] = e;
+  n["default"] = e;
   return Object.freeze(n);
 }
 
@@ -107,7 +105,7 @@ function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
-var MapContext = /*#__PURE__*/React__default['default'].createContext({});
+var MapContext = /*#__PURE__*/React__default["default"].createContext({});
 var MapContextProvider = MapContext.Provider;
 
 /**
@@ -211,16 +209,16 @@ var MapComponentsProvider = function MapComponentsProvider(_ref) {
     setMapStates: setMapStates,
     mapStatesRef: mapStatesRef
   };
-  return /*#__PURE__*/React__default['default'].createElement(MapContextProvider, {
+  return /*#__PURE__*/React__default["default"].createElement(MapContextProvider, {
     value: value
   }, children);
 };
 
 MapComponentsProvider.propTypes = {
-  children: PropTypes__default['default'].node.isRequired
+  children: PropTypes__default["default"].node.isRequired
 };
 
-var SimpleDataContext = /*#__PURE__*/React__default['default'].createContext({});
+var SimpleDataContext = /*#__PURE__*/React__default["default"].createContext({});
 var SimpleDataContextProvider = SimpleDataContext.Provider;
 
 var SimpleDataProvider = function SimpleDataProvider(props) {
@@ -273,13 +271,13 @@ var SimpleDataProvider = function SimpleDataProvider(props) {
     data: data,
     setData: setData
   };
-  return /*#__PURE__*/React__default['default'].createElement(SimpleDataContextProvider, {
+  return /*#__PURE__*/React__default["default"].createElement(SimpleDataContextProvider, {
     value: value
   }, props.children);
 };
 
 SimpleDataProvider.propTypes = {
-  children: PropTypes__default['default'].node.isRequired
+  children: PropTypes__default["default"].node.isRequired
 };
 
 exports.MapComponentsProvider = MapComponentsProvider;
