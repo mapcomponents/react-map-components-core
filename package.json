@@ -1,7 +1,8 @@
 {
   "name": "react-map-components-core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
+  "license": "MIT",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "source": "src/index.js",
