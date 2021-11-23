@@ -38,4 +38,4 @@ In the body of your function component add the following:
 ```js
 const mapContext = useContext(MapContext);
 ```
-You can now retrieve map engine instances using `mapContext.getMap(mapId)` within your own MapComponents.
+You can now retrieve map engine instances using `mapContext.getMap(mapId)`
