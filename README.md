@@ -3,6 +3,9 @@
 
 A React component library for declarative web map application development.
 
+
+[![npm version](https://badge.fury.io/js/react-map-components-core.svg)](https://badge.fury.io/js/react-map-components-core)
+
 ## Usage / Installation
 
 1. ```yarn add react-map-components-core``` to install and add this package as a dependency to your projects package.json
