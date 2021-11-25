@@ -8,7 +8,7 @@ A React component library for declarative web map application development.
 
 ## Usage / Installation
 
-1. ```yarn add react-map-components-core``` to install and add this package as a dependency to your projects package.json
+1. ```yarn add @mapcomponents/react-core``` to install and add this package as a dependency to your projects package.json
 
 ## Available Scripts
 
