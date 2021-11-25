@@ -1,5 +1,6 @@
-![MapComponents](https://avatars.githubusercontent.com/u/64851912)
-# [MapComponents Core](https://mapcomponents.org/) &middot;
+<img src="https://avatars.githubusercontent.com/u/64851912" alt="MapComponents logo" width="200"/>
+
+# [MapComponents Core](https://mapcomponents.org/)
 
 A React component library for declarative web map application development.
 
