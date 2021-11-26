@@ -5,7 +5,7 @@
 A React component library for declarative web map application development.
 
 
-[![npm version](https://badge.fury.io/js/react-map-components-core.svg)](https://badge.fury.io/js/react-map-components-core) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![downloads](https://img.shields.io/npm/dt/react-map-components-core.svg) ![downloads](https://img.shields.io/npm/dm/react-map-components-core.svg)
+[![npm version](https://badge.fury.io/js/@mapcomponents%2Freact-core.svg)](https://badge.fury.io/js/@mapcomponents%2Freact-core) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) ![downloads](https://img.shields.io/npm/dt/@mapcomponents%2Freact-core.svg) ![downloads](https://img.shields.io/npm/dm/@mapcomponents%2Freact-core.svg)
 
 ## Usage / Installation
 
