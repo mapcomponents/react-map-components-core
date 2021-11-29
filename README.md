@@ -7,6 +7,7 @@ A React component library for declarative web map application development.
 
 [![npm version](https://badge.fury.io/js/@mapcomponents%2Freact-core.svg)](https://badge.fury.io/js/@mapcomponents%2Freact-core) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) ![downloads](https://img.shields.io/npm/dt/@mapcomponents%2Freact-core.svg) ![downloads](https://img.shields.io/npm/dm/@mapcomponents%2Freact-core.svg)
 
+![Tests](https://github.com/mapcomponents/react-map-components-core/actions/workflows/node_version_test.yml/badge.svg)
 ## Usage / Installation
 
 1. ```yarn add @mapcomponents/react-core``` to install and add this package as a dependency to your projects package.json
